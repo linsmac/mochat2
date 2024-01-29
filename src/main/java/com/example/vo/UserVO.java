@@ -1,9 +1,12 @@
 package com.example.vo;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,13 +20,23 @@ public class UserVO {
 	private String passWord;
 	private String name;
 	private String channel;
+	private String message;
 	
-//    public UserVO(String userId, String account, String passWord) {
-//        this.userId = userId;
-//        this.account = account;
-//        this.passWord = passWord;
-//    }
+	@OneToMany(mappedBy = "user")
+	private List<FriendVO> friends;
 	
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public List<FriendVO> getFriends() {
+		return friends;
+	}
+	public void setFriends(List<FriendVO> friends) {
+		this.friends = friends;
+	}
 	public String getUserId() {
 		return userId;
 	}

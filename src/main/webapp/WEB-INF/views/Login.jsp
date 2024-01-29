@@ -48,6 +48,11 @@
     display: flex;
     justify-content: center;
   }
+    .error-message {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+  }
 
   /* 通用樣式 */
   .form-group label,
@@ -73,6 +78,9 @@
 		    <label for="password" class="label">password</label>
 		    <input type="password" id="password" name=password th:field="*{password}" placeholder="輸入您的密碼" class="input"/>
 		  </div>
+		  <c:if test="${not empty errorMessage}">
+			<div class="error-message">${errorMessage}</div>
+		  </c:if>
 		  <div class="button-container">
 		    <button type="submit" class="button">login</button>
 		  </div>

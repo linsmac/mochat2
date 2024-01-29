@@ -1,24 +1,36 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.MySQLDemo;
+import com.example.service.ChatListService;
 import com.example.service.UserService;
+import com.example.vo.FriendVO;
 import com.example.vo.LoginReqVo;
 import com.example.vo.UserVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
 	
-    private final UserService userService;
-
     @Autowired
+    private UserService userService;
+    @Autowired
+    private ChatListService chatListService;
+
+
     public LoginController(UserService userService) {
         this.userService = userService;
     }
@@ -31,14 +43,24 @@ public class LoginController {
     }
     
     @PostMapping("/Login")
-    public String login(@ModelAttribute("loginForm") LoginReqVo loginForm) {
-        if (userService.validateUser(loginForm.getAccount(), loginForm.getPassword())) {
-            return "redirect:/ChatList";
+    public String login(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("loginForm") LoginReqVo loginForm, Model model) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+    	UserVO userVo = userService.validateUser(loginForm.getAccount(), loginForm.getPassword());
+
+        if (userVo.getMessage() == null) {
+            List<FriendVO> friendList = chatListService.getUserChatList(userVo.getUserId());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String friendListJson = objectMapper.writeValueAsString(friendList);
+
+            request.setAttribute("friendListJson", friendListJson);
+            session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
         } else {
-            System.out.println("account or password incorrect");
+            model.addAttribute("errorMessage", userVo.getMessage());
             return "Login";
         }
+        return null;
     }
+    
 
     
     @GetMapping("/ChatList")  // 添加此行

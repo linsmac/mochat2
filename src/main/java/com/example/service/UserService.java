@@ -1,9 +1,5 @@
 package com.example.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.MySQLDemo;
@@ -14,19 +10,27 @@ public class UserService {
 
     private final MySQLDemo mySQLDemo;
 
-    @Autowired
     public UserService(MySQLDemo mySQLDemo) {
         this.mySQLDemo = mySQLDemo;
     }
 
-    public boolean validateUser(String account, String password) {
-        UserVO userVO = mySQLDemo.findUserByAccount(account);
+    public UserVO validateUser(String account, String password) {
+        UserVO userVO = new UserVO();
+        userVO.setMessage(null);
+        userVO = mySQLDemo.findUserByAccount(account);
 
-        if (userVO != null) {
-        	return password.equals(userVO.getPassWord());    		
+        if (userVO.getPassWord() != null) {
+        	if(!password.equals(userVO.getPassWord())) {
+        		userVO.setMessage("密碼錯誤");
+        	}
+        }else {
+        	userVO.setMessage("查無此帳號");
         }
-
-        return false;
+        return userVO;
+    }
+    
+    public UserVO getUserId(String account) {
+        return mySQLDemo.findUserByAccount(account);
     }
 }
 

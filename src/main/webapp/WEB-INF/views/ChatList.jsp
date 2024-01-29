@@ -1,73 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* 使主容器占據整個視窗高度 */
-  }
-
-  .toolbar {
-    background-color: rgb(30, 135, 240);
-    color: white;
-    padding: 10px;
-    text-align: center;
-  }
-
-  .chat-list {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    flex: 1; /* 使聊天列表占據剩餘的高度 */
-  }
-
-  .chat-room {
-    border-bottom: 1px solid rgb(240, 240, 240);
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  .chat-room:hover {
-    background-color: rgb(245, 245, 245);
-  }
-
-  .chat-room .user {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .chat-room .last-message {
-    color: rgb(102, 102, 102);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .chat-content {
-    padding: 20px;
-  }
-
-  .chat-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .message {
-    margin-bottom: 10px;
-  }
 
 </style>
 
 <head>
     <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="/css/style.css">
     <title>Chat List</title>
 </head>
 
@@ -75,7 +16,6 @@
     <div class="main-container">
         <div class="toolbar">Chat List</div>
         <div class="chat-list" id="chatList">
-            <!-- 聊天室條目將動態插入此處 -->
         </div>
         <div class="chat-content">
             <div class="chat-header" id="chatHeader">Select a chat</div>
@@ -84,23 +24,21 @@
     </div>
 
     <script>
-        // 模擬後端返回的聊天列表資料
-        var chatData = [
-            { username: 'User 1', lastMessage: 'Hello there!' },
-            { username: 'User 2', lastMessage: 'How are you?' },
-            { username: 'User 3', lastMessage: 'Good to see you!' }
-            // 其他聊天室條目
-        ];
+	    // 從後端獲取 friendList JSON
+	   var friendList = ${friendListJson};
+
+	
+	    // 將 JSON 字符串轉換為 JavaScript 對象
+	   // var friendList = JSON.parse(friendListJson);
 
         // 動態生成聊天室條目
         var chatListElement = document.getElementById('chatList');
-        chatData.forEach(function (chatRoom) {
+        friendList.forEach(function (chatRoom) {
             var roomElement = document.createElement('div');
             roomElement.className = 'chat-room';
-            roomElement.innerHTML = '<div class="user">' + chatRoom.username + '</div>' +
-                '<div class="last-message">' + chatRoom.lastMessage + '</div>';
+            roomElement.innerHTML = '<div class="user">' + chatRoom.friendName + '</div>';
             roomElement.onclick = function () {
-                showChatContent(chatRoom.username);
+                showChatContent(chatRoom.friendName);
             };
             chatListElement.appendChild(roomElement);
         });
