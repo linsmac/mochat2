@@ -64,7 +64,7 @@
 <body>
 	<header class="main-container">
 	  <h1 class="title">Welcome</h1>
-		<form th:action="@{/Login}" method="post" th:object="${loginForm}" name="loginForm">
+		<form th:action="@{/Login}" method="post" th:object="${loginForm}" name="loginForm" >
 		  <div class="form-group">
 		    <label for="account" class="label">account</label>
 		    <input type="text" id="account" name=account th:field="*{account}" placeholder="輸入您的帳號" class="input"/>
@@ -78,5 +78,7 @@
 		  </div>
 		</form>
 	</header>
+
 </body>
+
 </html>
