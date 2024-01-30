@@ -3,6 +3,7 @@ package com.example.demo;
 import java.sql.*;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.example.vo.UserVO;
@@ -15,20 +16,29 @@ public class MySQLDemo {
 //static final String DB_URL = "jdbc:mysql://localhost:3306/moDB";
 
 // MySQL 8.0 以上版本
-	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/mochattest?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+//	static final String 6JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+//	static final String DB_URL = "jdbc:mysql://localhost:3306/mochattest?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+	
+    @Value("${spring.datasource.url}")
+    private  String dbUrl;
 
-	static final String USER = "root";
-	static final String PASS = "123456";
+    @Value("${spring.datasource.username}")
+    private  String dbUsername;
+
+    @Value("${spring.datasource.password}")
+    private  String dbPassword;
+    
+    @Value("${spring.datasource.driver}")
+    private  String jdbcDriver;
 
     public UserVO findUserByAccount(String account) {
         Connection conn = null;
         Statement stmt = null;
         UserVO userVo = new UserVO();
         try {
-            Class.forName(JDBC_DRIVER);
+            Class.forName(jdbcDriver);
             System.out.println("Connect to DB...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
             stmt = conn.createStatement();
             String sql;
