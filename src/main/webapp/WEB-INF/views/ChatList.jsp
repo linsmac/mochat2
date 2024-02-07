@@ -15,8 +15,8 @@
 <body>
     <div class="main-container">
         <div class="toolbar-container">
-            <div class="toolbar" id="chatListBtn"><a href="/ChatList"> Chat List</a></div>
-            <div class="toolbar" id="friendListBtn"><a href="/FriendList">Friend List</a></div>
+            <div class="toolbar" id="chatListBtn"><a href="/ChatList?userId=${userId}"> Chat List</a></div>
+            <div class="toolbar" id="friendListBtn"><a href="/FriendList?userId=${userId}">Friend List</a></div>
  		</div>
         <div class="chat-list" id="chatList">
         </div>
@@ -28,20 +28,18 @@
 
     <script>
 	    // 從後端獲取 friendList JSON
-	   var chatList = ${chatListJson};
-
-	
-	    // 將 JSON 字符串轉換為 JavaScript 對象
-	   // var friendList = JSON.parse(friendListJson);
-
-        // 動態生成聊天室條目
+	    var chatList = ${chatListJson};
         var chatListElement = document.getElementById('chatList');
         chatList.forEach(function (chatRoom) {
+            var lastText = JSON.parse(chatRoom.text);
+            var lastMessage = lastText[lastText.length - 1].message;
+
             var roomElement = document.createElement('div');
             roomElement.className = 'chat-room';
             roomElement.innerHTML = '<div class="user">' + chatRoom.friendName + '</div>';
+            roomElement.innerHTML += '<div class="last-message">' + lastMessage + '</div>';
             roomElement.onclick = function () {
-                showChatContent(chatRoom.friendName);
+                showChatContent(chatRoom.user1Id);
             };
             chatListElement.appendChild(roomElement);
         });

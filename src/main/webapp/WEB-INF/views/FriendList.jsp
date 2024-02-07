@@ -15,8 +15,8 @@
 <body>
     <div class="main-container">
         <div class="toolbar-container">
-            <div class="toolbar" id="chatListBtn"><a href="/ChatList"> Chat List</a></div>
-            <div class="toolbar" id="friendListBtn"><a href="/FriendList">Friend List</a></div>
+            <div class="toolbar" id="chatListBtn"><a href="/ChatList?userId=${userId}"> Chat List</a></div>
+            <div class="toolbar" id="friendListBtn"><a href="/FriendList?userId=${userId}">Friend List</a></div>
         </div>
         <div class="chat-list" id="chatList">
         </div>
@@ -28,9 +28,8 @@
 
     <script>
 	    // 從後端獲取 friendList JSON
-	   var chatList = ${chatListJson};
+	    var chatList = ${chatListJson};
 
-	
 	    // 將 JSON 字符串轉換為 JavaScript 對象
 	   // var friendList = JSON.parse(friendListJson);
 

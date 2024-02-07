@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.service.ChatListService;
+import com.example.service.FriendListService;
 import com.example.service.UserService;
+import com.example.vo.ChatRoomVO;
 import com.example.vo.FriendVO;
 import com.example.vo.LoginReqVo;
 import com.example.vo.UserVO;
@@ -29,6 +31,8 @@ public class LoginController {
 	
     @Autowired
     private UserService userService;
+    @Autowired
+    private FriendListService friendListService;
     @Autowired
     private ChatListService chatListService;
 
@@ -50,10 +54,11 @@ public class LoginController {
     	UserVO userVo = userService.validateUser(loginForm.getAccount(), loginForm.getPassword());
 
         if (userVo.getMessage() == null) {
-            List<FriendVO> chatList = chatListService.getUserChatList(userVo.getUserId());
+        	List<ChatRoomVO> chatList = chatListService.getUserChatList(userVo.getUserId());
             ObjectMapper objectMapper = new ObjectMapper();
             String chatListJson = objectMapper.writeValueAsString(chatList);
 
+            request.setAttribute("userId", userVo.getUserId());
             request.setAttribute("chatListJson", chatListJson);
             session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
         } else {
@@ -66,9 +71,16 @@ public class LoginController {
 
     
     @GetMapping("/ChatList")  // 添加此行
-    public String showChatList(Model model) {
-    	System.out.println("Open ChatList Success");
-        return "ChatList";
+    public String showChatList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
+    	HttpSession session = request.getSession();
+    	List<ChatRoomVO> chatList = chatListService.getUserChatList(userId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String chatListJson = objectMapper.writeValueAsString(chatList);
+
+        request.setAttribute("userId", userId);
+        request.setAttribute("chatListJson", chatListJson);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
+        return null;
     }
     
     @PostMapping("/ChatList")
@@ -78,9 +90,16 @@ public class LoginController {
     }
     
     @GetMapping("/FriendList")
-    public String showFriendList(Model model){
-    	System.out.println("Open FriendList Success");
-        return "FriendList";
+    public String showFriendList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
+    	HttpSession session = request.getSession();
+    	List<FriendVO> chatList = friendListService.getUserFriendList(userId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String chatListJson = objectMapper.writeValueAsString(chatList);
+
+        request.setAttribute("userId", userId);
+        request.setAttribute("chatListJson", chatListJson);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/views/FriendList.jsp").forward(request, response);
+        return null;
     }
 
 }
