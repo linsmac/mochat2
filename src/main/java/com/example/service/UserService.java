@@ -29,9 +29,6 @@ public class UserService {
         return userVO;
     }
     
-    public UserVO getUserId(String account) {
-        return mySQLDemo.findUserByAccount(account);
-    }
 }
 
 

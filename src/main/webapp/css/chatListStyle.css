@@ -1,0 +1,85 @@
+ body {
+ 	margin: 0;
+ 	padding: 0;
+ 	font-family: Arial, sans-serif;
+ }
+
+ .main-container {
+ 	display: flex;
+ 	flex-direction: column;
+ 	height: 100vh;
+ 	/* 使主容器占據整個視窗高度 */
+ }
+
+ .toolbar-container {
+ 	display: flex;
+ 	background-color: #0A2463;
+ 	justify-content: center;
+ }
+
+ .toolbar {
+ 	padding: 10px;
+ 	cursor: pointer;
+ 	border: 1px solid #ccc;
+ 	margin-right: 50px;
+ 	margin-left: 50px;
+ 	margin-block: 5px;
+ 	width: 100px;
+ 	box-sizing: border-box;
+ }
+
+
+ .toolbar:hover {
+ 	background-color: #ddd;
+ }
+
+ .toolbar {
+ 	background-color: rgb(30, 135, 240);
+ 	color: white;
+ 	padding: 10px;
+ 	text-align: center;
+ }
+
+ .chat-list {
+ 	display: flex;
+ 	flex-direction: column;
+ 	overflow-y: auto;
+ 	flex: 1;
+ 	/* 使聊天列表占據剩餘的高度 */
+ }
+
+ .chat-room {
+ 	border-bottom: 1px solid rgb(240, 240, 240);
+ 	padding: 10px;
+ 	cursor: pointer;
+ }
+
+ .chat-room:hover {
+ 	background-color: rgb(245, 245, 245);
+ }
+
+ .chat-room .user {
+ 	font-size: 18px;
+ 	font-weight: bold;
+ }
+
+ .chat-room .last-message {
+ 	color: rgb(102, 102, 102);
+ 	overflow: hidden;
+ 	white-space: nowrap;
+ 	text-overflow: ellipsis;
+ }
+
+ .chat-content {
+ 	padding: 20px;
+ }
+
+ .chat-header {
+ 	font-size: 24px;
+ 	font-weight: bold;
+ 	margin-bottom: 10px;
+ }
+
+ .message {
+ 	margin-bottom: 10px;
+ }

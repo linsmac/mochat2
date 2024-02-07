@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="/css/chatListStyle.css">
-    <title>Chat List</title>
+    <title>Friend List</title>
 </head>
 
 <body>
@@ -17,12 +17,12 @@
         <div class="toolbar-container">
             <div class="toolbar" id="chatListBtn"><a href="/ChatList"> Chat List</a></div>
             <div class="toolbar" id="friendListBtn"><a href="/FriendList">Friend List</a></div>
- 		</div>
+        </div>
         <div class="chat-list" id="chatList">
         </div>
         <div class="chat-content">
-            <div class="chat-header" id="chatHeader">Select a chat</div>
-            <div class="message">Click on a chat on the left to view the conversation.</div>
+            <div class="chat-header" id="chatHeader">Select a friend</div>
+            <div class="message">Click on a friend on the left to view the conversation.</div>
         </div>
     </div>
 

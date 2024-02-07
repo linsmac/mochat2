@@ -9,12 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.service.ChatListService;
 import com.example.service.UserService;
 import com.example.vo.FriendVO;
 import com.example.vo.LoginReqVo;
 import com.example.vo.UserVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
@@ -48,11 +50,11 @@ public class LoginController {
     	UserVO userVo = userService.validateUser(loginForm.getAccount(), loginForm.getPassword());
 
         if (userVo.getMessage() == null) {
-            List<FriendVO> friendList = chatListService.getUserChatList(userVo.getUserId());
+            List<FriendVO> chatList = chatListService.getUserChatList(userVo.getUserId());
             ObjectMapper objectMapper = new ObjectMapper();
-            String friendListJson = objectMapper.writeValueAsString(friendList);
+            String chatListJson = objectMapper.writeValueAsString(chatList);
 
-            request.setAttribute("friendListJson", friendListJson);
+            request.setAttribute("chatListJson", chatListJson);
             session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
         } else {
             model.addAttribute("errorMessage", userVo.getMessage());
@@ -65,7 +67,7 @@ public class LoginController {
     
     @GetMapping("/ChatList")  // 添加此行
     public String showChatList(Model model) {
-        // 在這裡處理顯示ChatList的邏輯
+    	System.out.println("Open ChatList Success");
         return "ChatList";
     }
     
@@ -73,6 +75,12 @@ public class LoginController {
     public String loginSuccess(@ModelAttribute("loginForm") LoginReqVo loginForm, Model model) {
         // 假設登入成功後，重定向到 ChatList.jsp
         return "redirect:/ChatList";
+    }
+    
+    @GetMapping("/FriendList")
+    public String showFriendList(Model model){
+    	System.out.println("Open FriendList Success");
+        return "FriendList";
     }
 
 }
