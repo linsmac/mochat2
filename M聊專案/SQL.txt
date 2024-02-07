@@ -1,0 +1,20 @@
+//用戶資訊
+CREATE TABLE user (
+    user_id varchar(255) NOT NULL,
+    account varchar(255),
+    password varchar(255),
+    name varchar(255),
+	channel varchar(255)
+);
+
+
+//好友名單
+CREATE TABLE friend (
+friendship_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+user_id varchar(255),
+friend_id varchar(255),
+friend_name varchar(255)
+);
+
+//chatRoom待定
+
