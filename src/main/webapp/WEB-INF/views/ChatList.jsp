@@ -52,7 +52,7 @@
                     // 處理後端返回的聊天內容，這裡可以根據實際情況更新頁面
                     console.log('Chat room opened:', data);
                     // 跳轉到聊天室頁面
-                    window.location.href = '/ChatRoom';
+                    window.location.href = '/ChatRoom?userId='+username;
                 })
                 .catch(error => console.error('Error opening chat room:', error));
         }

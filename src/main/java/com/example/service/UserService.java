@@ -2,22 +2,22 @@ package com.example.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.MySQLDemo;
+import com.example.dao.UserDAO;
 import com.example.vo.UserVO;
 
 @Service
 public class UserService {
 
-    private final MySQLDemo mySQLDemo;
+    private final UserDAO userDAO;
 
-    public UserService(MySQLDemo mySQLDemo) {
-        this.mySQLDemo = mySQLDemo;
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public UserVO validateUser(String account, String password) {
         UserVO userVO = new UserVO();
         userVO.setMessage(null);
-        userVO = mySQLDemo.findUserByAccount(account);
+        userVO = userDAO.findUserByAccount(account);
 
         if (userVO.getPassWord() != null) {
         	if(!password.equals(userVO.getPassWord())) {
