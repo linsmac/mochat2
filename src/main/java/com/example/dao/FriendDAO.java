@@ -14,7 +14,7 @@ import com.example.conn.DBUtil;
 import com.example.vo.FriendVO;
 
 @Component
-public class FriendListDAO {
+public class FriendDAO {
     
     @Autowired
     private DBUtil dbUtil;

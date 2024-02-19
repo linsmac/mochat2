@@ -14,7 +14,7 @@ import com.example.conn.DBUtil;
 import com.example.vo.ChatRoomVO;
 
 @Component
-public class ChatListDAO {
+public class ChatRoomDAO {
 
     @Autowired
     private DBUtil dbUtil;
