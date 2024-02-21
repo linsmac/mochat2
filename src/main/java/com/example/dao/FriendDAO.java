@@ -18,6 +18,8 @@ public class FriendDAO {
     
     @Autowired
     private DBUtil dbUtil;
+    @Autowired
+    private UserDAO userDao;
 
     public List<FriendVO> getUserFriendList(String userId) {
         Connection conn = null;
@@ -35,7 +37,9 @@ public class FriendDAO {
                 FriendVO friendVo = new FriendVO();
                 friendVo.setFriendShipId(rs.getInt("friendship_id"));
                 friendVo.setFriendId(rs.getString("friend_id"));
-                friendVo.setFriendName(rs.getString("friend_name"));
+                String id = rs.getString("friend_id");
+                String friendName = userDao.getName(id);
+                friendVo.setFriendName(friendName);
                 friendList.add(friendVo);
             }
 
@@ -49,5 +53,33 @@ public class FriendDAO {
         }
 
         return friendList;
+    }
+    
+    public List<FriendVO> getRoomIdAndFriendName(String userId) {
+        Connection conn = null;
+        Statement stmt = null;
+        List<FriendVO> roomIdList = new ArrayList<>();
+
+        try {
+            conn = dbUtil.getConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM friend WHERE user_id = '" + userId + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+            	FriendVO friendVo = new FriendVO();
+            	friendVo.setRoomId(rs.getString("room_id"));
+            	friendVo.setFriendId(rs.getString("friend_id"));
+            	String id = rs.getString("friend_id");
+            	String FriendName =  userDao.getName(id);
+            	friendVo.setFriendName(FriendName);
+            	roomIdList.add(friendVo);
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException se) {
+            se.printStackTrace();
+        } finally {
+            dbUtil.closeConnection(conn);
+        }
+        return roomIdList;
     }
 }

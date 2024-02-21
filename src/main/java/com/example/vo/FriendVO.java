@@ -17,6 +17,7 @@ public class FriendVO {
 	private String userId;
 	private String friendId;
 	private String friendName;
+	private String roomId;
     @ManyToOne
     private UserVO user;
     
@@ -49,6 +50,12 @@ public class FriendVO {
 	}
 	public void setUser(UserVO user) {
 		this.user = user;
+	}
+	public String getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
 	
 }

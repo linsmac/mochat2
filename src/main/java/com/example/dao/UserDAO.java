@@ -51,4 +51,26 @@ public class UserDAO {
 
         return userVo;
     }
+    
+    public String getName(String id) {
+        Connection conn = null;
+        Statement stmt = null;
+        String userName = null;
+
+        try {
+            conn = dbUtil.getConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT name FROM user WHERE user_id = '" + id + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                userName = rs.getString("name");
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException se) {
+            se.printStackTrace();
+        } finally {
+            dbUtil.closeConnection(conn);
+        }
+        return userName;
+    }
 }
