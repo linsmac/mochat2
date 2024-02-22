@@ -37,9 +37,6 @@ public class FriendDAO {
                 FriendVO friendVo = new FriendVO();
                 friendVo.setFriendShipId(rs.getInt("friendship_id"));
                 friendVo.setFriendId(rs.getString("friend_id"));
-                String id = rs.getString("friend_id");
-                String friendName = userDao.getName(id);
-                friendVo.setFriendName(friendName);
                 friendList.add(friendVo);
             }
 
@@ -55,7 +52,7 @@ public class FriendDAO {
         return friendList;
     }
     
-    public List<FriendVO> getRoomIdAndFriendName(String userId) {
+    public List<FriendVO> getRoomId(String userId) {
         Connection conn = null;
         Statement stmt = null;
         List<FriendVO> roomIdList = new ArrayList<>();
@@ -68,13 +65,13 @@ public class FriendDAO {
             while (rs.next()) {
             	FriendVO friendVo = new FriendVO();
             	friendVo.setRoomId(rs.getString("room_id"));
+            	friendVo.setUserId(rs.getString("user_Id"));
             	friendVo.setFriendId(rs.getString("friend_id"));
-            	String id = rs.getString("friend_id");
-            	String FriendName =  userDao.getName(id);
-            	friendVo.setFriendName(FriendName);
             	roomIdList.add(friendVo);
             }
             rs.close();
+            dbUtil.closeConnection(conn);
+            System.out.println("Connect End");
         } catch (SQLException | ClassNotFoundException se) {
             se.printStackTrace();
         } finally {

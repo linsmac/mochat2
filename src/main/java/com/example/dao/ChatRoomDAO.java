@@ -21,37 +21,28 @@ public class ChatRoomDAO {
     private DBUtil dbUtil;
     @Autowired
     private FriendDAO friendDAO;
-
-    public List<ChatRoomVO> getUserChatList(String userId) {
+    
+    public List<ChatRoomVO> getUserChatList(String roomId) {
         Connection conn = null;
         Statement stmt = null;
         List<ChatRoomVO> chatList = new ArrayList<>();
-        List<FriendVO> roomIdList = friendDAO.getRoomIdAndFriendName(userId);
         
-        if (!roomIdList.isEmpty()) {
             try {
                 conn = dbUtil.getConnection();
                 stmt = conn.createStatement();
+            	String sql;
+	            sql = "SELECT * FROM chatroom WHERE room_id = '" + roomId + "'";
+	            ResultSet rs = stmt.executeQuery(sql);
 
-                // 遍历 roomIdList，获取每个 roomId 对应的聊天室信息
-                for (FriendVO friendVo : roomIdList) {
-                	String roomId = friendVo.getRoomId();
-	                String friendName = friendVo.getFriendName();
-                	String sql;
-		            sql = "SELECT * FROM chatroom WHERE room_id = '" + roomId + "'";
-		            ResultSet rs = stmt.executeQuery(sql);
-
-		            while (rs.next()) {
-		                ChatRoomVO chatRoomVo = new ChatRoomVO();
-		                chatRoomVo.setRoomId(rs.getInt("room_id"));
-		                chatRoomVo.setFriendName(friendName);
-		                chatRoomVo.setText(rs.getString("text"));
-		
-		                chatList.add(chatRoomVo);
-		            }
-		
-		            rs.close();
-                }
+	            while (rs.next()) {
+	                ChatRoomVO chatRoomVo = new ChatRoomVO();
+	                chatRoomVo.setRoomId(rs.getInt("room_id"));
+	                chatRoomVo.setText(rs.getString("text"));
+	
+	                chatList.add(chatRoomVo);
+	            }
+	
+            rs.close();        
             dbUtil.closeConnection(conn);
             System.out.println("Connect End");
         } catch (SQLException | ClassNotFoundException se) {
@@ -59,7 +50,7 @@ public class ChatRoomDAO {
         } finally {
             dbUtil.closeConnection(conn);
         }
-        }
+       
 
         return chatList;
     }
