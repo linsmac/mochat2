@@ -10,12 +10,10 @@ import com.example.vo.FriendVO;
 
 @Service
 public class FriendListService {
-    private final MySQLDemo mySQLDemo;
     private final FriendDAO friendDAO;
     private final UserDAO userDAO;
 
-    public FriendListService(MySQLDemo mySQLDemo, FriendDAO friendDAO, UserDAO userDAO) {
-        this.mySQLDemo = mySQLDemo;
+    public FriendListService(FriendDAO friendDAO, UserDAO userDAO) {
         this.friendDAO = friendDAO;
         this.userDAO = userDAO;
     }
@@ -26,6 +24,8 @@ public class FriendListService {
     	for (FriendVO friend : friendListVo) {
     		String friendId = friend.getFriendId();
     		String friendName =  userDAO.getName(friendId);
+    		friend.setUserId(userId);
+    		friend.setFriendId(friendId);
     		friend.setFriendName(friendName);
     	}
     	return friendListVo;

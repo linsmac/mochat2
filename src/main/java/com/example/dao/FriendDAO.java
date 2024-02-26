@@ -35,6 +35,8 @@ public class FriendDAO {
 
             while (rs.next()) {
                 FriendVO friendVo = new FriendVO();
+            	friendVo.setRoomId(rs.getString("room_id"));
+            	friendVo.setUserId(rs.getString("user_Id"));
                 friendVo.setFriendShipId(rs.getInt("friendship_id"));
                 friendVo.setFriendId(rs.getString("friend_id"));
                 friendList.add(friendVo);
@@ -52,31 +54,4 @@ public class FriendDAO {
         return friendList;
     }
     
-    public List<FriendVO> getRoomId(String userId) {
-        Connection conn = null;
-        Statement stmt = null;
-        List<FriendVO> roomIdList = new ArrayList<>();
-
-        try {
-            conn = dbUtil.getConnection();
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM friend WHERE user_id = '" + userId + "'";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-            	FriendVO friendVo = new FriendVO();
-            	friendVo.setRoomId(rs.getString("room_id"));
-            	friendVo.setUserId(rs.getString("user_Id"));
-            	friendVo.setFriendId(rs.getString("friend_id"));
-            	roomIdList.add(friendVo);
-            }
-            rs.close();
-            dbUtil.closeConnection(conn);
-            System.out.println("Connect End");
-        } catch (SQLException | ClassNotFoundException se) {
-            se.printStackTrace();
-        } finally {
-            dbUtil.closeConnection(conn);
-        }
-        return roomIdList;
-    }
 }

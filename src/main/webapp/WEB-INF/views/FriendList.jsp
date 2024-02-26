@@ -40,20 +40,21 @@
             roomElement.className = 'chat-room';
             roomElement.innerHTML = '<div class="user">' + chatRoom.friendName + '</div>';
             roomElement.onclick = function () {
-                showChatContent(chatRoom.friendName);
+                showChatContent(chatRoom.roomId, chatRoom.userId, chatRoom.friendId, chatRoom.friendName);
             };
             chatListElement.appendChild(roomElement);
         });
 
-        function showChatContent(username) {
+        function showChatContent(roomId, userId, friendId, friendName) {
+            
             // 將點擊的聊天室名稱發送給後端控制器
-            fetch('/openChatRoom?username=' + username)
+            fetch('/openChatRoom?roomId=' + roomId + '&userId=' + userId + '&friendId=' + friendId + '&friendName=' + friendName)
                 .then(response => response.json())
                 .then(data => {
                     // 處理後端返回的聊天內容，這裡可以根據實際情況更新頁面
                     console.log('Chat room opened:', data);
                     // 跳轉到聊天室頁面
-                    window.location.href = '/ChatRoom';
+                    window.location.href = '/ChatRoom?roomId=' + roomId + '&userId=' +userId + '&friendId=' + friendId + '&friendName=' + friendName;
                 })
                 .catch(error => console.error('Error opening chat room:', error));
         }

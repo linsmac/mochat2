@@ -104,7 +104,7 @@
     <div class="main-container">
         <div class="toolbar" id="toolbar">
             <div class="chat-header" id="chatHeader">Chat Room</div>
-            <button class="close-button" onclick="closeChat()">×</button>
+            <button class="close-button" onclick="closeChat()"><a href="/ChatList?userId=${userId}">×</a></button>
         </div>
         <div class="chat-content" id="chatContent">
             <!-- 過去的歷史消息將動態插入此處 -->
@@ -155,7 +155,8 @@
 
         function closeChat() {
             // 在此處添加關閉聊天室的邏輯，可以使用 window.location.href 或其他方式
-            window.location.href = '/ChatList';
+            var userId = ${userId}
+            window.location.href = '/ChatRoom?userId=' + userId;
         }
 
         function setChatHeader(chatObjectName) {
