@@ -32,9 +32,11 @@ public class ChatListService {
 		for (FriendVO RoomId : roomIdList) {
 		    List<ChatRoomVO> chatRooms = chatRoomDAO.getUserChatList(RoomId.getRoomId());
 	        for (ChatRoomVO room : chatRooms) {
+	        	String userName = userDAO.getName(userId);
 	            String friendId = RoomId.getFriendId();
 	            String friendName = userDAO.getName(friendId);
 	            room.setUserId(userId);
+	            room.setUserName(userName);
 	            room.setFriendId(friendId);
 	            room.setFriendName(friendName);
 	            chatListVo.add(room);

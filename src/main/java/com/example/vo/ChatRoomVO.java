@@ -16,6 +16,7 @@ public class ChatRoomVO {
 	private int roomId;
 	private String text;
 	private String userId;
+	private String userName;
 	private String friendId;
 	private String friendName;
 	
@@ -44,6 +45,14 @@ public class ChatRoomVO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getFriendId() {

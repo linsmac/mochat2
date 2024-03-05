@@ -3,101 +3,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* 使主容器占據整個視窗高度 */
-  }
-
-  .toolbar {
-    background-color: rgb(30, 135, 240);
-    color: white;
-    padding: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between; /* 將內容分散對齊 */
-    align-items: center;
-  }
-
-  .chat-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 將內容靠左對齊 */
-  }
-
-  .chat-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .message-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 70%; /* 設置最大寬度以防止消息過寬 */
-    margin-bottom: 20px;
-    align-self: flex-start; /* 將容器靠左對齊 */
-  }
-
-  .message {
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-    word-wrap: break-word; /* 防止長字串擠爆容器 */
-  }
-
-  .message-sender {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .message-time {
-    font-size: 12px;
-    color: #777;
-    text-align: right;
-  }
-
-  .input-container {
-    display: flex;
-    margin-top: 10px;
-  }
-
-  .message-input {
-    flex: 1;
-    padding: 8px;
-    font-size: 16px;
-  }
-
-  .send-button {
-    background-color: rgb(30, 135, 240);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-
-  .close-button {
-    background-color: rgb(255, 69, 0);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
 
 </style>
 
 <head>
     <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="/css/chatRoomStyle.css">
     <title>Chat Room</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -117,6 +30,45 @@
     </div>
 
     <script>
+    
+	    // 假設點擊了聊天室列表中的某個聊天室，將聊天對象名稱傳遞給 setChatHeader 函數
+	    var chatData = JSON.parse(sessionStorage.getItem('chatData'));
+	    setChatHeader(chatData.friendName);
+	
+	    // 假設從後端取得了過去的歷史消息數據，將它們插入到 .chat-content 中
+	    var chatContent = document.getElementById('chatContent');
+	   
+	    var historyMessages =  chatData.text.chatRooms[0];
+	    historyMessages.forEach(function (msg) {
+	        appendMessage(msg.name, msg.message, msg.timestamp);
+	    });
+	
+	    function appendMessage(name, message, timestamp) {
+	        var messageContainer = document.createElement('div');
+	        messageContainer.className = 'message-container';
+	
+	        var messageElement = document.createElement('div');
+	        messageElement.className = 'message';
+	        messageElement.innerText = message;
+	
+	        var nameElement = document.createElement('div');
+	        nameElement.className = 'message-name';
+	        nameElement.innerText = name;
+	
+	        var timestampElement = document.createElement('div');
+	        timestampElement.className = 'message-timestamp';
+	        timestampElement.innerText = formatTime(new Date(timestamp));
+	
+	        messageContainer.appendChild(nameElement);
+	        messageContainer.appendChild(messageElement);
+	        messageContainer.appendChild(timestampElement);
+	
+	        chatContent.appendChild(messageContainer);
+	
+	        // 滾動至最新消息處
+	        chatContent.scrollTop = chatContent.scrollHeight;
+	    }
+    
         function sendMessage() {
             var messageInput = document.getElementById('messageInput');
             var message = messageInput.value;
@@ -130,26 +82,61 @@
                 messageElement.className = 'message';
                 messageElement.innerText = message;
 
-                var senderElement = document.createElement('div');
-                senderElement.className = 'message-sender';
-                senderElement.innerText = 'You'; // 假設當前使用者名稱為 "You"
+                var nameElement = document.createElement('div');
+                nameElement.className = 'message-name';
+                nameElement.innerText = chatData.userName;
 
-                var timeElement = document.createElement('div');
-                timeElement.className = 'message-time';
+                var timestampElement = document.createElement('div');
+                timestampElement.className = 'message-timestamp';
                 var currentTime = new Date();
-                timeElement.innerText = formatTime(currentTime);
+                timestampElement.innerText = formatTime(currentTime);
 
-                messageContainer.appendChild(senderElement);
+                messageContainer.appendChild(nameElement);
                 messageContainer.appendChild(messageElement);
-                messageContainer.appendChild(timeElement);
 
                 chatContent.appendChild(messageContainer);
-
+                
                 // 清空輸入框
                 messageInput.value = '';
 
                 // 滾動至最新消息處
                 chatContent.scrollTop = chatContent.scrollHeight;
+                
+                if (message !== '') {
+
+                    $.ajax({
+                        url: '/sendMessage',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            roomId: chatData.roomId,
+                            userId: chatData.userId,
+                            userName: chatData.userName,
+                            friendId: chatData.friendId,
+                            friendName: chatData.friendName,
+                            historyText: JSON.stringify(chatData.text.chatRooms[0]),
+                            text: JSON.stringify([{ name: chatData.userName, message: message, timestamp:Math.floor(Date.now() / 1000) }])
+                        }),
+                        success: function (response) {
+                            if (response === '00') {
+                                var timestampElement = document.createElement('div');
+                                timestampElement.className = 'message-timestamp';
+                                timestampElement.innerText = formatTime(new Date());
+                                messageContainer.appendChild(timestampElement);
+                            } else {
+                                console.error('Failed to send message');
+                                var errorElement = document.createElement('div');
+                                errorElement.className = 'message-timestamp';
+                                errorElement.innerText = '傳送失敗';
+                                messageContainer.appendChild(errorElement);
+                            }
+                        },
+	                    error: function (xhr, status, error) {
+	                        console.error('Ajax request failed:', error);
+	                    }
+                    });
+                }
+                
             }
         }
 
@@ -180,46 +167,7 @@
             }
         }
 
-        // 假設點擊了聊天室列表中的某個聊天室，將聊天對象名稱傳遞給 setChatHeader 函數
-        setChatHeader('John Doe'); // 假設聊天對象是 John Doe
 
-        // 假設從後端取得了過去的歷史消息數據，將它們插入到 .chat-content 中
-        var chatContent = document.getElementById('chatContent');
-        var historyMessages = [
-            { sender: 'John Doe', message: 'Hello!', time: new Date('2024-01-25T12:34:56') },
-            { sender: 'You', message: 'Hi John!', time: new Date('2024-01-25T12:35:00') },
-            // ... 其他歷史消息
-        ];
-
-        historyMessages.forEach(function (msg) {
-            appendMessage(msg.sender, msg.message, msg.time);
-        });
-
-        function appendMessage(sender, message, time) {
-            var messageContainer = document.createElement('div');
-            messageContainer.className = 'message-container';
-
-            var messageElement = document.createElement('div');
-            messageElement.className = 'message';
-            messageElement.innerText = message;
-
-            var senderElement = document.createElement('div');
-            senderElement.className = 'message-sender';
-            senderElement.innerText = sender;
-
-            var timeElement = document.createElement('div');
-            timeElement.className = 'message-time';
-            timeElement.innerText = formatTime(time);
-
-            messageContainer.appendChild(senderElement);
-            messageContainer.appendChild(messageElement);
-            messageContainer.appendChild(timeElement);
-
-            chatContent.appendChild(messageContainer);
-
-            // 滾動至最新消息處
-            chatContent.scrollTop = chatContent.scrollHeight;
-        }
     </script>
 </body>
 
