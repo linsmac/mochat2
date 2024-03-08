@@ -62,7 +62,7 @@ public class ChatRoomDAO {
         return chatList;
     }
     
-    public String updateOrInsert(JsonNode requestBody) throws JsonProcessingException {
+    public String update(JsonNode requestBody) throws JsonProcessingException {
         Connection conn = null;
         Statement stmt = null;
         
@@ -80,6 +80,34 @@ public class ChatRoomDAO {
             result = "00";
         } catch (SQLException | ClassNotFoundException se) {
             se.printStackTrace();
+            result = "01";
+        } finally {
+            dbUtil.closeConnection(conn);
+        }
+    	
+    	return result;
+    }
+    
+    public String Insert(JsonNode requestBody) throws JsonProcessingException {
+        Connection conn = null;
+        Statement stmt = null;
+        
+        String roomId = requestBody.get("roomId").asText();
+        String NewText = requestBody.get("text").asText();
+
+        
+        String result = null;
+        try {
+            conn = dbUtil.getConnection();
+            stmt = conn.createStatement();
+            
+            String sql = "INSERT INTO chatroom (room_id, text) VALUES ('" + roomId +"','" + NewText + "')";
+            stmt.executeUpdate(sql);
+            
+            result = "00";
+        } catch (SQLException | ClassNotFoundException se) {
+            se.printStackTrace();
+            result = "01";
         } finally {
             dbUtil.closeConnection(conn);
         }

@@ -31,6 +31,11 @@
 
     <script>
     
+    
+/*    $(document).ready(function(){
+    	
+    });
+*/
 	    // 假設點擊了聊天室列表中的某個聊天室，將聊天對象名稱傳遞給 setChatHeader 函數
 	    var chatData = JSON.parse(sessionStorage.getItem('chatData'));
 	    setChatHeader(chatData.friendName);
@@ -67,13 +72,18 @@
 	
 	        // 滾動至最新消息處
 	        chatContent.scrollTop = chatContent.scrollHeight;
+	        
+/*	        setInterval(function () {
+	            reloadChatContent();
+	        }, 120000);
+	        */
 	    }
     
         function sendMessage() {
             var messageInput = document.getElementById('messageInput');
             var message = messageInput.value;
             if (message.trim() !== '') {
-                // 在此處添加發送消息的邏輯，並更新 .chat-content 的內容
+            	
                 var chatContent = document.getElementById('chatContent');
                 var messageContainer = document.createElement('div');
                 messageContainer.className = 'message-container';
@@ -123,6 +133,7 @@
                                 timestampElement.className = 'message-timestamp';
                                 timestampElement.innerText = formatTime(new Date());
                                 messageContainer.appendChild(timestampElement);
+                                reloadChatContent();
                             } else {
                                 console.error('Failed to send message');
                                 var errorElement = document.createElement('div');
@@ -166,6 +177,26 @@
                 sendMessage(); // 觸發發送消息函數
             }
         }
+        
+        function reloadChatContent() {
+            var chatData = JSON.parse(sessionStorage.getItem('chatData'));
+            fetch('/openChatRoom?roomId=' + chatData.roomId + '&userId=' + chatData.userId + '&userName=' + chatData.userName + '&friendId=' + chatData.friendId + '&friendName=' + chatData.friendName)
+                .then(response => response.json())
+                .then(data => {
+                    // 更新 sessionStorage 中的聊天室数据
+                    sessionStorage.setItem('chatData', JSON.stringify(data));
+                    // 清空聊天内容
+                    document.getElementById('chatContent').innerHTML = '';
+                    // 根据新的数据重新渲染聊天内容
+                    var historyMessages = data.text.chatRooms[0];
+                    historyMessages.forEach(function (msg) {
+                        appendMessage(msg.name, msg.message, msg.timestamp);
+                    });
+                })
+                .catch(error => console.error('Error reloading chat content:', error));
+//            	chatData = sessionStorage.getItem('chatData');
+        }
+
 
 
     </script>

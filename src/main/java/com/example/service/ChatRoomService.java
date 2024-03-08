@@ -46,25 +46,27 @@ public class ChatRoomService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ObjectNode jsonResponse = objectMapper.createObjectNode();
 
-		try {
-			List<ChatRoomVO> chatRoomVoList = chatRoomDAO.getUserChatList(roomId);
-			ArrayNode chatRoomsArray = objectMapper.createArrayNode();
+	    try {
+	        List<ChatRoomVO> chatRoomVoList = chatRoomDAO.getUserChatList(roomId);
+	        ArrayNode chatRoomsArray = objectMapper.createArrayNode();
 
-			for (ChatRoomVO chatRoomVo : chatRoomVoList) {
-				JsonNode chatRoomText = objectMapper.readTree(chatRoomVo.getText());
+	        for (ChatRoomVO chatRoomVo : chatRoomVoList) {
+	            if (chatRoomVo.getText() != null) { // 检查文本内容是否为空
+	                JsonNode chatRoomText = objectMapper.readTree(chatRoomVo.getText());
 
-				for (JsonNode chatroomtext : chatRoomText) {
-					String timestamp = chatroomtext.get("timestamp").asText();
-					long timestampInMillis = Long.parseLong(timestamp) * 1000L;
-					Date date = new Date(timestampInMillis);
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-					String formattedDate = dateFormat.format(date);
-					// 更新訊息對象的時間戳
-					((ObjectNode) chatroomtext).put("timestamp", formattedDate);
-				}
+	                for (JsonNode chatroomtext : chatRoomText) {
+	                    String timestamp = chatroomtext.get("timestamp").asText();
+	                    long timestampInMillis = Long.parseLong(timestamp) * 1000L;
+	                    Date date = new Date(timestampInMillis);
+	                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	                    String formattedDate = dateFormat.format(date);
+	                    // 更新消息对象的时间戳
+	                    ((ObjectNode) chatroomtext).put("timestamp", formattedDate);
+	                }
 
-				chatRoomsArray.add(chatRoomText);
-			}
+	                chatRoomsArray.add(chatRoomText);
+	            }
+	        }
 
 			jsonResponse.put("chatRooms", chatRoomsArray);
 		} catch (Exception e) {
@@ -79,13 +81,12 @@ public class ChatRoomService {
 		ObjectMapper mapper = new ObjectMapper();
 		String returnText = null;
 
-		String historyText = requestBody.get("historyText").asText();
-		String newText = requestBody.get("text").asText();
+		JsonNode history = requestBody.get("historyText");
 
-		if (historyText != null) {
+		if (history != null) {
 
-//        JsonNode historyTextNode = requestBody.get("historyText");
-//        JsonNode textNode = requestBody.get("text");
+			String historyText = requestBody.get("historyText").asText();
+			String newText = requestBody.get("text").asText();
 
 			try {
 				JSONArray oldJSONArray = new JSONArray(historyText);
@@ -109,7 +110,7 @@ public class ChatRoomService {
 				String combined = oldJSONArray.toString();
                 JsonNode combinedNode = mapper.readTree(combined);
                 ((ObjectNode) requestBody).set("combinedText", combinedNode);
-                returnText = chatRoomDAO.updateOrInsert(requestBody);
+                returnText = chatRoomDAO.update(requestBody);
 
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -117,6 +118,8 @@ public class ChatRoomService {
 				return returnText;
 			}
 
+		}else {
+			returnText = chatRoomDAO.Insert(requestBody);
 		}
 
 		return returnText;

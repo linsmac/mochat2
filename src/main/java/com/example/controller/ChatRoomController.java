@@ -33,7 +33,6 @@ public class ChatRoomController {
 	@GetMapping("/openChatRoom")
 	public ResponseEntity<ObjectNode> openChatRoom(HttpServletRequest request, HttpServletResponse response,Model model, @RequestParam String roomId, @RequestParam String userId, @RequestParam String userName, @RequestParam String friendId, @RequestParam String friendName) throws ServletException, IOException {
 
-		String chatContent = "Welcome to the chat room with " + friendName;
 		ObjectNode jsonResponse = new ObjectMapper().createObjectNode();
 		ObjectNode chatHistory = chatRoomService.getHistoryText(roomId);
 
@@ -42,10 +41,12 @@ public class ChatRoomController {
 		jsonResponse.put("userName", userName);
 		jsonResponse.put("friendId", friendId);
 		jsonResponse.put("friendName", friendName);
-		jsonResponse.put("content", chatContent);
-		jsonResponse.set("text", chatHistory);
+	    if (chatHistory != null) {
+	        jsonResponse.set("text", chatHistory);
+	    } else {
+	        jsonResponse.putNull("text");
+	    }
 
-		// 將聊天內容轉為 JSON 格式返回給前端
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "application/json").body(jsonResponse);
 	}
 

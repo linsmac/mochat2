@@ -15,6 +15,7 @@ public class FriendVO {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int friendShipId;
 	private String userId;
+	private String userName;
 	private String friendId;
 	private String friendName;
 	private String roomId;
@@ -33,6 +34,12 @@ public class FriendVO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getFriendId() {
 		return friendId;

@@ -22,9 +22,11 @@ public class FriendListService {
     	List<FriendVO> friendListVo = friendDAO.getUserFriendList(userId);
     	
     	for (FriendVO friend : friendListVo) {
+    		String userName = userDAO.getName(userId);
     		String friendId = friend.getFriendId();
     		String friendName =  userDAO.getName(friendId);
     		friend.setUserId(userId);
+    		friend.setUserName(userName);
     		friend.setFriendId(friendId);
     		friend.setFriendName(friendName);
     	}
