@@ -44,9 +44,12 @@
 	    var chatContent = document.getElementById('chatContent');
 	   
 	    var historyMessages =  chatData.text.chatRooms[0];
-	    historyMessages.forEach(function (msg) {
-	        appendMessage(msg.name, msg.message, msg.timestamp);
-	    });
+	    if(historyMessages){
+	    	  historyMessages.forEach(function (msg) {
+	  	        appendMessage(msg.name, msg.message, msg.timestamp);
+	  	    });
+		}
+	  
 	
 	    function appendMessage(name, message, timestamp) {
 	        var messageContainer = document.createElement('div');
