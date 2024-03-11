@@ -30,12 +30,12 @@
     </div>
 
     <script>
+     
     
-    
-/*    $(document).ready(function(){
+ /*   $(document).ready(function(){
     	
-    });
-*/
+    });*/
+
 	    // 假設點擊了聊天室列表中的某個聊天室，將聊天對象名稱傳遞給 setChatHeader 函數
 	    var chatData = JSON.parse(sessionStorage.getItem('chatData'));
 	    setChatHeader(chatData.friendName);
@@ -83,6 +83,7 @@
 	    }
     
         function sendMessage() {
+        	var chatData = JSON.parse(sessionStorage.getItem('chatData'));
             var messageInput = document.getElementById('messageInput');
             var message = messageInput.value;
             if (message.trim() !== '') {
@@ -136,7 +137,9 @@
                                 timestampElement.className = 'message-timestamp';
                                 timestampElement.innerText = formatTime(new Date());
                                 messageContainer.appendChild(timestampElement);
+                                
                                 reloadChatContent();
+                                //window.location.reload();
                             } else {
                                 console.error('Failed to send message');
                                 var errorElement = document.createElement('div');
