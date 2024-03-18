@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.conn.DBUtil;
+import com.example.vo.RegisterReqVO;
 import com.example.vo.UserVO;
 
 @Component
@@ -72,5 +73,42 @@ public class UserDAO {
             dbUtil.closeConnection(conn);
         }
         return userName;
+    }
+    
+    public RegisterReqVO registerAccount(String Name, String account, String password) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        RegisterReqVO registerReqVO = new RegisterReqVO();
+
+        try {
+            conn = dbUtil.getConnection();
+            stmt = conn.createStatement();
+
+            // 檢查帳戶是否已被使用
+            String checkQuery = "SELECT * FROM user WHERE account = '" + account + "'";
+            rs = stmt.executeQuery(checkQuery);
+
+            if (!rs.next()) {
+            	String insertQuery = "INSERT INTO user (user_id, name, account, password, channel) " +
+                        "SELECT CONCAT(IFNULL(MAX(CAST(user_id AS UNSIGNED)), 0) + 1), " +
+                        "'" + Name + "', '" + account + "', '" + password + "', " +
+                        "CONCAT(IFNULL(MAX(CAST(channel AS UNSIGNED)), 0) + 1) FROM user";                stmt.executeUpdate(insertQuery);
+                //註冊成功！
+                registerReqVO.setMessage("00");
+            } else {
+            	//註冊失敗，該帳戶已被使用
+            	registerReqVO.setMessage("註冊失敗，該帳戶已被使用");
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            //DB連線失敗
+            registerReqVO.setMessage("連線失敗");
+		} finally {
+			dbUtil.closeConnection(conn);
+        }
+
+        return registerReqVO;
     }
 }

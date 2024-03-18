@@ -96,12 +96,12 @@
 
 <body>
 	<header class="main-container">
-		<h1 class="title">註冊帳戶</h1>
+		<h1 class="title">註冊帳號</h1>
 		<form action="/Register" method="post" id="registerForm">
 			<div class="form-group">
-				<label for="username" class="label">姓名</label>
-				<input type="text" id="username" name="username" placeholder="請輸入您的稱呼" class="input" oninput="validateNameInput(this)"/>
-				<div id="usernameWarning" class="warning">不可空白</div>
+				<label for="name" class="label">姓名</label>
+				<input type="text" id="name" name="name" placeholder="請輸入您的稱呼" class="input" oninput="validateNameInput(this)"/>
+				<div id="nameWarning" class="warning">不可空白</div>
 			</div>
 			<div class="form-group">
 				<label for="account" class="label">帳戶</label>
@@ -119,7 +119,7 @@
 				<div id="confirmPasswordWarning" class="warning">確認密碼輸入錯誤</div>
 			</div>
 			<div class="button-container">
-				<a href="/CancelRegister" class="cancel-button">取消</a>
+				<a href="/Login" class="cancel-button">取消</a>
 				<button type="submit" class="button" onclick="submitForm(event)">註冊</button>
 			</div>
 		</form>
@@ -161,28 +161,28 @@
     function submitForm(event) {
         event.preventDefault();//阻止表單默認送出的行為
 
-        var username = document.getElementById("username").value;
+        var name = document.getElementById("name").value;
         var account = document.getElementById("account").value;
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("confirmPassword").value;
 
-        var usernameWarning = document.getElementById("usernameWarning");
+        var nameWarning = document.getElementById("nameWarning");
         var accountWarning = document.getElementById("accountWarning");
         var passwordWarning = document.getElementById("passwordWarning");
         var confirmPasswordWarning = document.getElementById("confirmPasswordWarning");
 
-        // 隐藏所有警告信息
-        usernameWarning.style.display = "none";
+        // 隱藏所有警告信息
+        nameWarning.style.display = "none";
         accountWarning.style.display = "none";
         passwordWarning.style.display = "none";
         confirmPasswordWarning.style.display = "none";
 
         var hasError = false;
 
-        // 检查是否有空白输入
-        if (username.trim() === "") {
-            usernameWarning.innerText = "不可空白";
-            usernameWarning.style.display = "block";
+        // 檢查是否有空白输入
+        if (name.trim() === "") {
+            nameWarning.innerText = "不可空白";
+            nameWarning.style.display = "block";
             hasError = true;
         }
 
@@ -215,7 +215,7 @@
             return;
         } 
         var formData = new FormData();
-        formData.append("username", username);
+        formData.append("name", name);
         formData.append("account", account);
         formData.append("password", password);
         formData.append("confirmPassword", confirmPassword);
@@ -233,7 +233,7 @@
             })
             .then(data => {
                 console.log(data);
-                if (data === "success") {
+                if (data === "00") {
                     alert("註冊成功");
                     window.location.href = "/Login";
                 } else {

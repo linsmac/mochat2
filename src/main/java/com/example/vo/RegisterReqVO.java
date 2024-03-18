@@ -5,6 +5,8 @@ public class RegisterReqVO {
     private String account;
     private String password;
     private String confirmPassword;
+    private String message;
+    
 	public String getName() {
 		return name;
 	}
@@ -28,6 +30,12 @@ public class RegisterReqVO {
 	}
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
     
     
