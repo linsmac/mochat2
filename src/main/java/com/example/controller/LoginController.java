@@ -101,5 +101,13 @@ public class LoginController {
         session.getServletContext().getRequestDispatcher("/WEB-INF/views/FriendList.jsp").forward(request, response);
         return null;
     }
+    
+    @GetMapping("/AddFriend")
+    public String AddFriend(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
+    	HttpSession session = request.getSession();
+    	request.setAttribute("userId", userId);
+        session.getServletContext().getRequestDispatcher("/WEB-INF/views/AddFriend.jsp").forward(request, response);
+        return null;
+    }
 
 }
