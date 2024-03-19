@@ -4,13 +4,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.example.conn.DBUtil;
+import com.example.vo.ChatRoomVO;
+import com.example.vo.FriendVO;
 import com.example.vo.RegisterReqVO;
 import com.example.vo.UserVO;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Component
 public class UserDAO {
@@ -110,5 +116,32 @@ public class UserDAO {
         }
 
         return registerReqVO;
+    }
+    
+    public List<UserVO> searchUser(String searchInput) {
+        Connection conn = null;
+        Statement stmt = null;
+        List<UserVO> searchList = new ArrayList<>();
+
+        try {
+            conn = dbUtil.getConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM user WHERE account = '" + searchInput + "' OR name = '" + searchInput + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+            	UserVO userVO = new UserVO();
+            	userVO.setAccount(rs.getString("account"));
+            	userVO.setName(rs.getString("name"));
+            	userVO.setUserId(rs.getString("user_id"));
+
+                searchList.add(userVO);
+            }
+            rs.close();
+        } catch (SQLException | ClassNotFoundException se) {
+            se.printStackTrace();
+        } finally {
+            dbUtil.closeConnection(conn);
+        }
+        return searchList;
     }
 }

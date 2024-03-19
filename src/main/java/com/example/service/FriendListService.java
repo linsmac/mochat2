@@ -25,10 +25,12 @@ public class FriendListService {
     		String userName = userDAO.getName(userId);
     		String friendId = friend.getFriendId();
     		String friendName =  userDAO.getName(friendId);
+    		String roomId = friend.getRoomId();
     		friend.setUserId(userId);
     		friend.setUserName(userName);
     		friend.setFriendId(friendId);
     		friend.setFriendName(friendName);
+    		friend.setRoomId(roomId);
     	}
     	return friendListVo;
     }

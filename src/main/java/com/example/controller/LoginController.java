@@ -55,10 +55,12 @@ public class LoginController {
 
         if (userVo.getMessage() == null) {
         	List<ChatRoomVO> chatList = chatListService.getUserChatList(userVo.getUserId());
+        	String userName = userService.getUserName(userVo.getUserId());
             ObjectMapper objectMapper = new ObjectMapper();
             String chatListJson = objectMapper.writeValueAsString(chatList);
 
             request.setAttribute("userId", userVo.getUserId());
+            request.setAttribute("userName", userName);
             request.setAttribute("chatListJson", chatListJson);
             session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
         } else {
@@ -71,13 +73,14 @@ public class LoginController {
 
     
     @GetMapping("/ChatList")  // 添加此行
-    public String showChatList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
+    public String showChatList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId,@RequestParam("userName") String userName)throws ServletException, IOException{
     	HttpSession session = request.getSession();
     	List<ChatRoomVO> chatList = chatListService.getUserChatList(userId);
         ObjectMapper objectMapper = new ObjectMapper();
         String chatListJson = objectMapper.writeValueAsString(chatList);
 
         request.setAttribute("userId", userId);
+        request.setAttribute("userName", userName);
         request.setAttribute("chatListJson", chatListJson);
         session.getServletContext().getRequestDispatcher("/WEB-INF/views/ChatList.jsp").forward(request, response);
         return null;
@@ -90,23 +93,16 @@ public class LoginController {
     }
     
     @GetMapping("/FriendList")
-    public String showFriendList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
+    public String showFriendList(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId, @RequestParam("userName") String userName)throws ServletException, IOException{
     	HttpSession session = request.getSession();
     	List<FriendVO> chatList = friendListService.getUserFriendList(userId);
         ObjectMapper objectMapper = new ObjectMapper();
         String chatListJson = objectMapper.writeValueAsString(chatList);
 
         request.setAttribute("userId", userId);
+        request.setAttribute("userName", userName);
         request.setAttribute("chatListJson", chatListJson);
         session.getServletContext().getRequestDispatcher("/WEB-INF/views/FriendList.jsp").forward(request, response);
-        return null;
-    }
-    
-    @GetMapping("/AddFriend")
-    public String AddFriend(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam("userId") String userId)throws ServletException, IOException{
-    	HttpSession session = request.getSession();
-    	request.setAttribute("userId", userId);
-        session.getServletContext().getRequestDispatcher("/WEB-INF/views/AddFriend.jsp").forward(request, response);
         return null;
     }
 

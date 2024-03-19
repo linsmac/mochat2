@@ -15,9 +15,9 @@
 <body>
     <div class="main-container">
         <div class="toolbar-container">
-            <div class="toolbar" id="chatListBtn"><a href="/ChatList?userId=${userId}"> Chat List</a></div>
-            <div class="toolbar" id="friendListBtn"><a href="/FriendList?userId=${userId}">Friend List</a></div>
-        	<div class="toolbar" id="addFriendBtn"><a href="/AddFriend?userId=${userId}">Add Friend</a></div>
+            <div class="toolbar" id="chatListBtn"><a href="/ChatList?userId=${userId}&userName=${userName}"> Chat List</a></div>
+            <div class="toolbar" id="friendListBtn"><a href="/FriendList?userId=${userId}&userName=${userName}">Friend List</a></div>
+        	<div class="toolbar" id="addFriendBtn"><a href="/AddFriend?userId=${userId}&userName=${userName}">Add Friend</a></div>
  		</div>
         <div class="chat-list" id="chatList">
         </div>
@@ -30,6 +30,7 @@
     <script>
 	    // 從後端獲取 friendList JSON
 	    var chatList = ${chatListJson};
+	    
         var chatListElement = document.getElementById('chatList');
         chatList.forEach(function (chatRoom) {
             var lastText = JSON.parse(chatRoom.text);

@@ -29,6 +29,11 @@ public class UserService {
         return userVO;
     }
     
+    public String getUserName(String userId) {
+    	String userName = userDAO.getName(userId);
+    	return userName;
+    }
+    
 }
 
 
