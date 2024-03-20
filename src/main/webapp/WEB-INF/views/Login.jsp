@@ -155,7 +155,7 @@
 
 	    var hasError = false; // 添加一個標誌來標記是否有錯誤
 
-	    if (account === "") {
+	    if (account.trim() === "") {
 	        var accountInput = document.getElementById("account");
 	        accountInput.classList.add("error-input");
 	        accountWarning.innerText = "不可空白";
@@ -172,7 +172,7 @@
             }
 	    }
 
-	    if (password === "") {
+	    if (password.trim() === "") {
 	        var passwordInput = document.getElementById("password");
 	        passwordInput.classList.add("error-input");
 	        passwordWarning.innerText = "不可空白";
