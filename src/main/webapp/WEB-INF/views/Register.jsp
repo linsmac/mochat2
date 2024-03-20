@@ -77,6 +77,11 @@
 	margin-top: 10px;
 }
 
+.error-input {
+    border: 1px solid red;
+    
+}
+
 .warning {
 	font-size: 13px;
 	color: red;
@@ -128,32 +133,42 @@
 	<script>
     function validateNameInput(input) {
         var value = input.value;
+        var input = input;
         var warning = input.nextElementSibling;
 
         if (value.trim() === "") {
+        	input.classList.add("error-input");
             warning.innerText = "不可空白";
             warning.style.display = "block";
         }else {
+        	input.classList.remove("error-input");
             warning.style.display = "none";
         }
     }
 	
     function validateInput(input) {
         var value = input.value;
+        var input = input;
         var warning = input.nextElementSibling;
 
         if (value.trim() === "") {
+        	input.classList.add("error-input");
             warning.innerText = "不可空白";
             warning.style.display = "block";
             return;
+        } else {
+        	input.classList.remove("error-input");
+            warning.style.display = "none";
         }
 
         var alphanumericRegex = /^[a-zA-Z0-9]+$/;
 
         if (!alphanumericRegex.test(value)) {
+        	input.classList.add("error-input");
             warning.innerText = "只能输入英文字母和数字";
             warning.style.display = "block";
         } else {
+        	input.classList.remove("error-input");
             warning.style.display = "none";
         }
     }
@@ -181,30 +196,49 @@
 
         // 檢查是否有空白输入
         if (name.trim() === "") {
+	        var nameInput = document.getElementById("name");
+	        nameInput.classList.add("error-input");
             nameWarning.innerText = "不可空白";
             nameWarning.style.display = "block";
             hasError = true;
         }
 
         if (account.trim() === "") {
+	        var accountInput = document.getElementById("account");
+	        accountInput.classList.add("error-input");
             accountWarning.innerText = "不可空白";
             accountWarning.style.display = "block";
             hasError = true;
+        } else {
+            var alphanumericRegex = /^[a-zA-Z0-9]+$/;
+            if (!alphanumericRegex.test(account)) {
+    	        var accountInput = document.getElementById("account");
+    	        accountInput.classList.add("error-input");
+                accountWarning.innerText = "只能输入英文字母和数字";
+                accountWarning.style.display = "block";
+                hasError = true;
+            }
         }
 
         if (password.trim() === "") {
+	        var passwordInput = document.getElementById("password");
+	        passwordInput.classList.add("error-input");
             passwordWarning.innerText = "不可空白";
             passwordWarning.style.display = "block";
             hasError = true;
         }
 
         if (confirmPassword.trim() === "") {
+	        var confirmPasswordInput = document.getElementById("confirmPassword");
+	        confirmPasswordInput.classList.add("error-input");
             confirmPasswordWarning.innerText = "不可空白";
             confirmPasswordWarning.style.display = "block";
             hasError = true;
         }
 
         if (password !== confirmPassword) {
+	        var confirmPasswordInput = document.getElementById("confirmPassword");
+	        confirmPasswordInput.classList.add("error-input");
             confirmPasswordWarning.innerText = "確認密碼輸入錯誤";
             confirmPasswordWarning.style.display = "block";
             hasError = true;
