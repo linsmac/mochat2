@@ -164,6 +164,13 @@
             var userName = chatData.userName;
             window.location.href = '/ChatList?userId=' + userId+ '&userName=' + userName;
         }
+        
+        window.onbeforeunload = function() {
+            if (window.location.href.indexOf("ChatRoom") > -1) {
+                var checkFromChatRoom = true; // 添加一個檢查參數
+                sessionStorage.setItem('checkFromChatRoom', checkFromChatRoom);
+            }
+        };
 
         function setChatHeader(chatObjectName) {
             // 設置最上方的聊天對象名稱

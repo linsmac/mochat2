@@ -27,8 +27,24 @@
         </div>
     </div>
 
-    <script>
-	    // 從後端獲取 friendList JSON
+    <script>    
+	    window.onload = function() {
+	        // 檢查是否是通過返回鍵返回的
+	        var checkFromChatRoom = sessionStorage.getItem('checkFromChatRoom');
+				if (checkFromChatRoom) {
+	
+	            // 執行程式碼
+	            var chatData = JSON.parse(sessionStorage.getItem('chatData'));
+	            var userId = ${userId};
+	            var userName = chatData.userName;
+	            window.location.href = '/ChatList?userId=' + userId + '&userName=' + userName;
+	            
+	            // 設置標記，表示已經執行過程式碼
+	            sessionStorage.removeItem('checkFromChatRoom');
+	        }
+	    };
+	    
+    	// 從後端獲取 friendList JSON
 	    var chatList = ${chatListJson};
 	    
         var chatListElement = document.getElementById('chatList');
@@ -45,7 +61,8 @@
             };
             chatListElement.appendChild(roomElement);
         });
-
+        
+        
         function showChatContent(roomId, userId, userName, friendId, friendName) {
             // 將點擊的聊天室名稱發送給後端控制器
             fetch('/openChatRoom?roomId=' + roomId + '&userId=' + userId + '&userName=' + userName + '&friendId=' + friendId + '&friendName=' + friendName)
