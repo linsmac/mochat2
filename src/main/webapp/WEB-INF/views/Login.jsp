@@ -65,10 +65,15 @@
 	justify-content: center;
 }
 
-.error-message {
-	text-align: center;
+.error-input {
+    border: 1px solid red;
+    
+}
+
+.warning {
+	font-size: 13px;
 	color: red;
-	margin-top: 10px;
+	display: none;
 }
 
 /* 通用樣式 */
@@ -88,27 +93,115 @@
 		<form th:action="@{/Login}" method="post" th:object="${loginForm}"
 			name="loginForm">
 			<div class="form-group">
-				<label for="account" class="label">account</label> <input
-					type="text" id="account" name=account th:field="*{account}"
-					placeholder="輸入您的帳號" class="input" />
+				<label for="account" class="label">account</label>
+				<input type="text" id="account" name=account th:field="*{account}" placeholder="輸入您的帳號" class="input" oninput="validateInput(this)"/>
+				<div id="accountWarning" class="warning">不可空白</div>
 			</div>
 			<div class="form-group">
-				<label for="password" class="label">password</label> <input
-					type="password" id="password" name=password th:field="*{password}"
-					placeholder="輸入您的密碼" class="input" />
+				<label for="password" class="label">password</label>
+				<input type="password" id="password" name=password th:field="*{password}" placeholder="輸入您的密碼" class="input" oninput="validateInput(this)"/>
+				<div id="passwordWarning" class="warning">不可空白</div>
 			</div>
-			<c:if test="${not empty errorMessage}">
-				<div class="error-message">${errorMessage}</div>
-			</c:if>
 			<div class="button-container">
-				<button type="submit" class="button">login</button>
+				<button type="submit" class="button" onclick="submitForm(event)">login</button>
 			</div>
 			<div class="button-container">
 				<a href="/Register" class="register-link">註冊帳號</a>
 			</div>
 		</form>
 	</header>
+	
+	<script>
+	
+    function validateInput(input) {
+        var value = input.value;
+        var input = input;
+        var warning = input.nextElementSibling;
 
+        if (value.trim() === "") {
+        	input.classList.add("error-input");
+            warning.innerText = "不可空白";
+            warning.style.display = "block";
+            return;
+        }else {
+        	input.classList.remove("error-input");
+        	warning.style.display = "none";
+	    }
+
+        var alphanumericRegex = /^[a-zA-Z0-9]+$/;
+
+        if (!alphanumericRegex.test(value)) {
+        	input.classList.add("error-input");
+            warning.innerText = "只能输入英文字母和数字";
+            warning.style.display = "block";
+        } else {
+        	input.classList.remove("error-input");
+            warning.style.display = "none";
+        }
+    }
+
+	// 提交表單時再次檢查並防止空白提交
+	function submitForm(event) {
+	    event.preventDefault(); // 阻止表單默認送出的行為
+
+	    var account = document.getElementById("account").value.trim();
+	    var password = document.getElementById("password").value.trim();
+
+	    var accountWarning = document.getElementById("accountWarning");
+	    var passwordWarning = document.getElementById("passwordWarning");
+
+	    accountWarning.style.display = "none";
+	    passwordWarning.style.display = "none";
+
+	    var hasError = false; // 添加一個標誌來標記是否有錯誤
+
+	    if (account === "") {
+	        var accountInput = document.getElementById("account");
+	        accountInput.classList.add("error-input");
+	        accountWarning.innerText = "不可空白";
+	        accountWarning.style.display = "block";
+	        hasError = true;
+	    }else{
+            var alphanumericRegex = /^[a-zA-Z0-9]+$/;
+            if (!alphanumericRegex.test(account)) {
+    	        var accountInput = document.getElementById("account");
+    	        accountInput.classList.add("error-input");
+                accountWarning.innerText = "只能输入英文字母和数字";
+                accountWarning.style.display = "block";
+                hasError = true;
+            }
+	    }
+
+	    if (password === "") {
+	        var passwordInput = document.getElementById("password");
+	        passwordInput.classList.add("error-input");
+	        passwordWarning.innerText = "不可空白";
+	        passwordWarning.style.display = "block";
+	        hasError = true;
+	    }
+
+	    // 如果沒有錯誤，則提交表單
+	    if (!hasError && account !== "" && password !== "") {
+	        document.forms["loginForm"].submit(); // 提交表單
+	    }
+	}
+	
+	// 從後端返回的錯誤消息
+	var errorMessage = "${errorMessage}";
+
+	// 如果錯誤消息為"密碼錯誤"，則顯示警告消息
+	if (errorMessage === "密碼錯誤") {
+	    var passwordInput = document.getElementById("password");
+	    passwordInput.classList.add("error-input"); // 將密碼輸入框添加到 error-input 類
+	    var passwordWarning = document.getElementById("passwordWarning");
+	    passwordWarning.innerText = "密碼錯誤";
+	    passwordWarning.style.display = "block";
+	} else if (errorMessage === "查無此帳號") {
+	    alert(errorMessage);
+	    window.location.href = "/Register"; // 跳轉到註冊頁面
+	}
+	
+	</script>
 </body>
 
 </html>
