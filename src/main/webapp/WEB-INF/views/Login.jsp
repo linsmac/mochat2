@@ -117,20 +117,17 @@
         var value = input.value;
         var input = input;
         var warning = input.nextElementSibling;
-
-        if (value.trim() === "") {
-        	input.classList.add("error-input");
-            warning.innerText = "不可空白";
-            warning.style.display = "block";
-            return;
-        }else {
-        	input.classList.remove("error-input");
-        	warning.style.display = "none";
-	    }
-
         var alphanumericRegex = /^[a-zA-Z0-9]+$/;
 
-        if (!alphanumericRegex.test(value)) {
+        
+        if (value.includes(" ")) {
+            input.classList.add("error-input");
+            warning.innerText = "不可輸入空格";
+            warning.style.display = "block";
+        } else if (value.trim() === "") {
+        	input.classList.remove("error-input");
+            warning.style.display = "none";
+        } else if (!alphanumericRegex.test(value)) {
         	input.classList.add("error-input");
             warning.innerText = "只能输入英文字母和数字";
             warning.style.display = "block";
@@ -144,8 +141,8 @@
 	function submitForm(event) {
 	    event.preventDefault(); // 阻止表單默認送出的行為
 
-	    var account = document.getElementById("account").value.trim();
-	    var password = document.getElementById("password").value.trim();
+	    var account = document.getElementById("account").value;
+	    var password = document.getElementById("password").value;
 
 	    var accountWarning = document.getElementById("accountWarning");
 	    var passwordWarning = document.getElementById("passwordWarning");
@@ -154,34 +151,42 @@
 	    passwordWarning.style.display = "none";
 
 	    var hasError = false; // 添加一個標誌來標記是否有錯誤
+	    var alphanumericRegex = /^[a-zA-Z0-9]+$/;
+	    var accountInput = document.getElementById("account");
+	    var passwordInput = document.getElementById("password");
 
-	    if (account.trim() === "") {
-	        var accountInput = document.getElementById("account");
+	    if (account.includes(" ")) {
 	        accountInput.classList.add("error-input");
-	        accountWarning.innerText = "不可空白";
+	        accountWarning.innerText = "不可輸入空格";
 	        accountWarning.style.display = "block";
 	        hasError = true;
-	    }else{
-            var alphanumericRegex = /^[a-zA-Z0-9]+$/;
-            if (!alphanumericRegex.test(account)) {
-    	        var accountInput = document.getElementById("account");
-    	        accountInput.classList.add("error-input");
-                accountWarning.innerText = "只能输入英文字母和数字";
-                accountWarning.style.display = "block";
-                hasError = true;
-            }
-	    }
+	    } else if (account.trim() === "") {
+        	accountInput.classList.add("error-input");
+        	accountWarning.innerText = "不可空白";
+        	accountWarning.style.display = "block";
+        	hasError = true;
+        } else if (!alphanumericRegex.test(account)) {
+   	        var accountInput = document.getElementById("account");
+   	        accountInput.classList.add("error-input");
+            accountWarning.innerText = "只能输入英文字母和数字";
+            accountWarning.style.display = "block";
+            hasError = true;
+        }
 
-	    if (password.trim() === "") {
-	        var passwordInput = document.getElementById("password");
+	    if (password.includes(" ")) {
 	        passwordInput.classList.add("error-input");
-	        passwordWarning.innerText = "不可空白";
+	        passwordWarning.innerText = "不可輸入空格";
 	        passwordWarning.style.display = "block";
 	        hasError = true;
+	    }else if (password.trim() === "") {
+	    	passwordInput.classList.add("error-input");
+	    	passwordWarning.innerText = "不可空白";
+	    	passwordWarning.style.display = "block";
+        	hasError = true;
 	    }
 
 	    // 如果沒有錯誤，則提交表單
-	    if (!hasError && account !== "" && password !== "") {
+	    if (!hasError) {
 	        document.forms["loginForm"].submit(); // 提交表單
 	    }
 	}
