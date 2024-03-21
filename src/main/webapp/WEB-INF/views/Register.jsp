@@ -110,12 +110,12 @@
 			</div>
 			<div class="form-group">
 				<label for="account" class="label">帳戶</label>
-				<input type="text" id="account" name="account" placeholder="請輸入帳戶" class="input" oninput="validateInput(this)"/>
+				<input type="text" id="account" name="account" placeholder="請輸入帳戶(只能輸入英文字母和數字)" class="input" oninput="validateInput(this)"/>
 				<div id="accountWarning" class="warning">不可空白</div>
 			</div>
 			<div class="form-group">
 				<label for="password" class="label">密碼</label>
-				<input type="password" id="password" name="password" placeholder="請輸入密碼" class="input" oninput="validateInput(this)"/>
+				<input type="password" id="password" name="password" placeholder="請輸入密碼(只能輸入英文字母和數字)" class="input" oninput="validateInput(this)"/>
 				<div id="passwordWarning" class="warning">不可空白</div>
 			</div>
 			<div class="form-group">
@@ -136,7 +136,11 @@
         var input = input;
         var warning = input.nextElementSibling;
 
-        if (value.trim() === "") {
+        if (value.includes(" ")) {
+            input.classList.add("error-input");
+            warning.innerText = "不可輸入空格";
+            warning.style.display = "block";
+        } else if (value.trim() === "") {
         	input.classList.add("error-input");
             warning.innerText = "不可空白";
             warning.style.display = "block";
@@ -150,22 +154,20 @@
         var value = input.value;
         var input = input;
         var warning = input.nextElementSibling;
+        var alphanumericRegex = /^[a-zA-Z0-9]+$/;
 
-        if (value.trim() === "") {
+        
+        if (value.includes(" ")) {
+            input.classList.add("error-input");
+            warning.innerText = "不可輸入空格";
+            warning.style.display = "block";
+        } else if (value.trim() === "") {
         	input.classList.add("error-input");
             warning.innerText = "不可空白";
             warning.style.display = "block";
-            return;
-        } else {
-        	input.classList.remove("error-input");
-            warning.style.display = "none";
-        }
-
-        var alphanumericRegex = /^[a-zA-Z0-9]+$/;
-
-        if (!alphanumericRegex.test(value)) {
+        } else if (!alphanumericRegex.test(value)) {
         	input.classList.add("error-input");
-            warning.innerText = "只能输入英文字母和数字";
+            warning.innerText = "只能輸入英文字母和數字";
             warning.style.display = "block";
         } else {
         	input.classList.remove("error-input");
@@ -185,6 +187,11 @@
         var accountWarning = document.getElementById("accountWarning");
         var passwordWarning = document.getElementById("passwordWarning");
         var confirmPasswordWarning = document.getElementById("confirmPasswordWarning");
+        
+        var nameInput = document.getElementById("name");
+        var accountInput = document.getElementById("account");
+        var passwordInput = document.getElementById("password");
+        var confirmPasswordInput = document.getElementById("confirmPassword");
 
         // 隱藏所有警告信息
         nameWarning.style.display = "none";
@@ -193,51 +200,64 @@
         confirmPasswordWarning.style.display = "none";
 
         var hasError = false;
+        var alphanumericRegex = /^[a-zA-Z0-9]+$/;
 
-        // 檢查是否有空白输入
-        if (name.trim() === "") {
-	        var nameInput = document.getElementById("name");
+        // 檢查是否有空白輸入
+        if (name.includes(" ")){
+        	nameInput.classList.add("error-input");
+        	nameWarning.innerText = "不可輸入空格";
+        	nameWarning.style.display = "block";
+	        hasError = true;
+        } else if (name.trim() === "") {
 	        nameInput.classList.add("error-input");
             nameWarning.innerText = "不可空白";
             nameWarning.style.display = "block";
             hasError = true;
         }
 
-        if (account.trim() === "") {
-	        var accountInput = document.getElementById("account");
+	    if (account.includes(" ")) {
 	        accountInput.classList.add("error-input");
-            accountWarning.innerText = "不可空白";
+	        accountWarning.innerText = "不可輸入空格";
+	        accountWarning.style.display = "block";
+	        hasError = true;
+	    } else if (account.trim() === "") {
+        	accountInput.classList.add("error-input");
+        	accountWarning.innerText = "不可空白";
+        	accountWarning.style.display = "block";
+        	hasError = true;
+        } else if (!alphanumericRegex.test(account)) {
+   	        var accountInput = document.getElementById("account");
+   	        accountInput.classList.add("error-input");
+            accountWarning.innerText = "只能輸入英文字母和數字";
             accountWarning.style.display = "block";
             hasError = true;
-        } else {
-            var alphanumericRegex = /^[a-zA-Z0-9]+$/;
-            if (!alphanumericRegex.test(account)) {
-    	        var accountInput = document.getElementById("account");
-    	        accountInput.classList.add("error-input");
-                accountWarning.innerText = "只能输入英文字母和数字";
-                accountWarning.style.display = "block";
-                hasError = true;
-            }
         }
 
-        if (password.trim() === "") {
-	        var passwordInput = document.getElementById("password");
+	    if (password.includes(" ")) {
 	        passwordInput.classList.add("error-input");
-            passwordWarning.innerText = "不可空白";
-            passwordWarning.style.display = "block";
-            hasError = true;
-        }
-
-        if (confirmPassword.trim() === "") {
-	        var confirmPasswordInput = document.getElementById("confirmPassword");
-	        confirmPasswordInput.classList.add("error-input");
-            confirmPasswordWarning.innerText = "不可空白";
-            confirmPasswordWarning.style.display = "block";
-            hasError = true;
-        }
+	        passwordWarning.innerText = "不可輸入空格";
+	        passwordWarning.style.display = "block";
+	        hasError = true;
+	    }else if (password.trim() === "") {
+	    	passwordInput.classList.add("error-input");
+	    	passwordWarning.innerText = "不可空白";
+	    	passwordWarning.style.display = "block";
+        	hasError = true;
+	    }
+	    
+	    if (confirmPassword.includes(" ")) {
+	    	confirmPasswordInput.classList.add("error-input");
+	    	confirmPasswordWarning.innerText = "不可輸入空格";
+	    	confirmPasswordWarning.style.display = "block";
+	        hasError = true;
+	    }else if (password.trim() === "") {
+	    	passwordInput.classList.add("error-input");
+	    	passwordWarning.innerText = "不可空白";
+	    	passwordWarning.style.display = "block";
+        	hasError = true;
+	    }
 
         if (password !== confirmPassword) {
-	        var confirmPasswordInput = document.getElementById("confirmPassword");
 	        confirmPasswordInput.classList.add("error-input");
             confirmPasswordWarning.innerText = "確認密碼輸入錯誤";
             confirmPasswordWarning.style.display = "block";

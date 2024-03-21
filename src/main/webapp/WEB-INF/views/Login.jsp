@@ -93,12 +93,12 @@
 		<form th:action="@{/Login}" method="post" th:object="${loginForm}"
 			name="loginForm">
 			<div class="form-group">
-				<label for="account" class="label">account</label>
+				<label for="account" class="label">帳戶</label>
 				<input type="text" id="account" name=account th:field="*{account}" placeholder="輸入您的帳號" class="input" oninput="validateInput(this)"/>
 				<div id="accountWarning" class="warning">不可空白</div>
 			</div>
 			<div class="form-group">
-				<label for="password" class="label">password</label>
+				<label for="password" class="label">密碼</label>
 				<input type="password" id="password" name=password th:field="*{password}" placeholder="輸入您的密碼" class="input" oninput="validateInput(this)"/>
 				<div id="passwordWarning" class="warning">不可空白</div>
 			</div>
@@ -129,7 +129,7 @@
             warning.style.display = "none";
         } else if (!alphanumericRegex.test(value)) {
         	input.classList.add("error-input");
-            warning.innerText = "只能输入英文字母和数字";
+            warning.innerText = "只能輸入英文字母和數字";
             warning.style.display = "block";
         } else {
         	input.classList.remove("error-input");
@@ -137,7 +137,7 @@
         }
     }
 
-	// 提交表單時再次檢查並防止空白提交
+	// 提交表單時再次檢查
 	function submitForm(event) {
 	    event.preventDefault(); // 阻止表單默認送出的行為
 
@@ -168,7 +168,7 @@
         } else if (!alphanumericRegex.test(account)) {
    	        var accountInput = document.getElementById("account");
    	        accountInput.classList.add("error-input");
-            accountWarning.innerText = "只能输入英文字母和数字";
+            accountWarning.innerText = "只能輸入英文字母和數字";
             accountWarning.style.display = "block";
             hasError = true;
         }
@@ -194,7 +194,6 @@
 	// 從後端返回的錯誤消息
 	var errorMessage = "${errorMessage}";
 
-	// 如果錯誤消息為"密碼錯誤"，則顯示警告消息
 	if (errorMessage === "密碼錯誤") {
 	    var passwordInput = document.getElementById("password");
 	    passwordInput.classList.add("error-input"); // 將密碼輸入框添加到 error-input 類
