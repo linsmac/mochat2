@@ -14,11 +14,16 @@
 
 <body>
     <div class="main-container">
-        <div class="toolbar-container">
-            <div class="toolbar" id="chatListBtn"><a href="/ChatList?userId=${userId}&userName=${userName}"> Chat List</a></div>
-            <div class="toolbar" id="friendListBtn"><a href="/FriendList?userId=${userId}&userName=${userName}">Friend List</a></div>
-        	<div class="toolbar" id="addFriendBtn"><a href="/AddFriend?userId=${userId}&userName=${userName}">Add Friend</a></div>
-        </div>
+        <div class="top-container">
+        	<div class="toolbar-container">
+	            <a href="/ChatList?userId=${userId}&userName=${userName}" class="toolbar" id="chatListBtn">聊天列表</a>
+	            <a href="/FriendList?userId=${userId}&userName=${userName}" class="press" id="friendListBtn">好友列表</a>
+	        	<a href="/AddFriend?userId=${userId}&userName=${userName}" class="toolbar" id="addFriendBtn">加入好友</a>
+ 			</div>
+	        <div class="logout-container">
+	            <a href="/Login" class="logout-button" id="logoutBtn">登出</a>
+	        </div>
+ 		</div>
         <div class="chat-list" id="chatList">
         </div>
         <div class="chat-content">

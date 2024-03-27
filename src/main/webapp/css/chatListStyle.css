@@ -11,30 +11,72 @@
  	/* 使主容器占據整個視窗高度 */
  }
 
- .toolbar-container {
- 	display: flex;
- 	background-color: #0A2463;
- 	justify-content: center;
- }
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #0A2463;
+}
 
- .toolbar {
- 	padding: 10px;
- 	cursor: pointer;
- 	border: 1px solid #ccc;
- 	margin-right: 50px;
- 	margin-left: 50px;
- 	margin-block: 5px;
- 	width: 100px;
- 	box-sizing: border-box;
- 	background-color: rgb(30, 135, 240);
- 	color: white;
- 	text-align: center;
- }
+.logout-container {
+    display: flex;
+    align-items: flex-end;
+}
 
+.toolbar-container {
+    display: flex;
+    justify-content: flex-start; /* 左對齊 */
+    background-color: #0A2463;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
 
- .toolbar:hover {
- 	background-color: #ddd;
- }
+.toolbar-right-container {
+    display: flex;
+    justify-content: flex-end; /* 右對齊 */
+    background-color: #0A2463;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.toolbar {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    margin: 5px 30px; /* 調整左右間距 */
+    width: 100px;
+    box-sizing: border-box;
+    background-color: #828489;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.press {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    margin: 5px 30px; /* 調整左右間距 */
+    width: 100px;
+    box-sizing: border-box;
+    background-color: rgb(30, 135, 240);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logout-button {
+    cursor: pointer;
+    margin-block: 5px;
+    width: 100px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.toolbar:hover {
+    background-color: #ddd;
+}
 
  .chat-list {
  	display: flex;
