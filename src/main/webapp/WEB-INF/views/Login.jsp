@@ -2,93 +2,17 @@
 <!DOCTYPE html>
 <html>
 <style>
-.main-container {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	align-items: center;
-	padding: 100px 0;
-}
 
-.title {
-	font-size: 24px;
-	margin-bottom: 16px;
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 16px;
-}
-
-.label {
-	font-size: 18px;
-	margin-bottom: 8px;
-}
-
-.input {
-	height: 40px;
-	width: 300px;
-	padding: 8px;
-}
-
-.button {
-	all: unset;
-	background-color: rgb(0, 123, 255);
-	border-radius: 4px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-size: 20px;
-	height: 30px;
-	width: 125px;
-	text-align: center;
-	margin: 0 auto;
-}
-
-.register-link {
-  font-size: 14px;
-  font-size: 1rem;
-  line-height: 20px;
-  line-height: 2rem;
-  font-family: "Rakuten Sans UI", "Trebuchet MS", Trebuchet, Arial, Helvetica, sans-serif;
-  color: #000;
-  text-decoration: underline;
-  background: none; /* 移除背景色 */
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-top: 16px; /* 添加一些頂部間距 */
-}
-
-.button-container {
-	display: flex;
-	justify-content: center;
-}
-
-.error-input {
-    border: 1px solid red;
-    
-}
-
-.warning {
-	font-size: 13px;
-	color: red;
-	display: none;
-}
-
-/* 通用樣式 */
-.form-group label, .form-group input {
-	margin-bottom: 8px;
-}
 </style>
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="/css/loginStyle.css">
+	<title>Login</title>
 </head>
 
 <body>
-	<header class="main-container">
+	<header class="login-main-container">
 		<h1 class="title">Welcome</h1>
 		<form th:action="@{/Login}" method="post" th:object="${loginForm}"
 			name="loginForm">
@@ -103,7 +27,7 @@
 				<div id="passwordWarning" class="warning">不可空白</div>
 			</div>
 			<div class="button-container">
-				<button type="submit" class="button" onclick="submitForm(event)">login</button>
+				<button type="submit" class="button" onclick="submitForm(event)">登入</button>
 			</div>
 			<div class="button-container">
 				<a href="/Register" class="register-link">註冊帳號</a>

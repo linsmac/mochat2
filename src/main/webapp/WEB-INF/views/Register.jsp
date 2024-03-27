@@ -1,106 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <style>
-.main-container {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	align-items: center;
-	padding: 10px 0;
-}
 
-.title {
-	font-size: 24px;
-	margin-bottom: 16px;
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-.label {
-	font-size: 18px;
-	margin-bottom: 8px;
-}
-
-.input {
-	height: 30px;
-	width: 300px;
-	padding: 8px;
-}
-
-.button {
-	all: unset;
-	display: flex;
-	background-color: rgb(0, 123, 255);
-	border-radius: 10px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-size: 18px;
-	height: 40px;
-	width: 100px;
-	text-align: center;
-	margin: 0 auto;
-	align-items: center;
-	justify-content: center;
-}
-
-.cancel-button {
-	all: unset;
-	display: flex;
-	background-color: rgb(83, 77, 86);
-	border-radius: 10px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-size: 18px;
-	height: 40px;
-	width: 100px;
-	text-align: center;
-	margin: 0 auto;
-	align-items: center;
-	justify-content: center;
-}
-
-.button-container {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px
-}
-
-.error-message {
-	text-align: center;
-	color: red;
-	margin-top: 10px;
-}
-
-.error-input {
-    border: 1px solid red;
-    
-}
-
-.warning {
-	font-size: 13px;
-	color: red;
-	display: none;
-}
-
-/* 通用樣式 */
-.form-group label, .form-group input {
-	margin-bottom: 8px;
-}
 </style>
 
 <head>
-<meta charset="UTF-8">
-<title>註冊帳戶</title>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="/css/loginStyle.css">
+	<title>註冊帳戶</title>
 </head>
 
 <body>
-	<header class="main-container">
+	<header class="register-main-container">
 		<h1 class="title">註冊帳號</h1>
 		<form action="/Register" method="post" id="registerForm">
 			<div class="form-group">

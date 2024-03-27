@@ -1,0 +1,116 @@
+.login-main-container {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	align-items: center;
+	padding: 100px 0;
+}
+
+.register-main-container {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.title {
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.label {
+	font-size: 18px;
+	margin-bottom: 8px;
+}
+
+.input {
+	height: 30px;
+	width: 300px;
+	padding: 8px;
+}
+
+.button {
+	all: unset;
+	background-color: rgb(0, 123, 255);
+	border-radius: 10px;
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	font-size: 18px;
+	height: 40px;
+	width: 100px;
+	text-align: center;
+	margin: 0 auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.cancel-button {
+	all: unset;
+	display: flex;
+	background-color: rgb(83, 77, 86);
+	border-radius: 10px;
+	color: rgb(255, 255, 255);
+	cursor: pointer;
+	font-size: 18px;
+	height: 40px;
+	width: 100px;
+	text-align: center;
+	margin: 0 auto;
+	align-items: center;
+	justify-content: center;
+}
+
+.register-link {
+  font-size: 14px;
+  font-size: 1rem;
+  line-height: 20px;
+  line-height: 2rem;
+  font-family: "Rakuten Sans UI", "Trebuchet MS", Trebuchet, Arial, Helvetica, sans-serif;
+  color: #000;
+  text-decoration: underline;
+  background: none; /* 移除背景色 */
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 16px; /* 添加一些頂部間距 */
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px
+}
+
+.error-input {
+    border: 1px solid red;
+    
+}
+
+.error-message {
+	text-align: center;
+	color: red;
+	margin-top: 10px;
+}
+
+.error-input {
+    border: 1px solid red;
+    
+}
+
+.warning {
+	font-size: 13px;
+	color: red;
+	display: none;
+}
+
+/* 通用樣式 */
+.form-group label, .form-group input {
+	margin-bottom: 8px;
+}

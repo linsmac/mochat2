@@ -1,108 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <style>
-h1 {
-	margin-left: 10px;
-}
 
-h3 {
-	margin-left: 10px;
-}
-
-.input {
-	height: 30px;
-	width: 600px;
-	padding: 8px;
-	margin-left: 10px;
-	font-size: 16px;
-}
-
-.searchButton {
-	all: unset;
-	display: inline-block;
-	background-color: #0a2463;
-	border-radius: 10px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-size: 18px;
-	height: 40px;
-	width: 100px;
-	text-align: center;
-	margin-left: 10px;
-	margin-bottom: 10px;
-}
-
-.button {
-	all: unset;
-	background-color: rgb(0, 123, 255);
-	border-radius: 10px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	font-size: 18px;
-	height: 40px;
-	width: 100px;
-	text-align: center;
-	margin-bottom: 10px;
-	font-weight: bold;
-}
-
-#resultsList {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	max-height: 300px;
-	overflow-y: auto;
-}
-
-.chat-room {
-	border-bottom: 1px solid #ccc;
-	padding: 10px;
-	display: flex;
-	align-items: center;
-}
-
-.chat-room:hover {
-	background-color: #f5f5f5;
-}
-
-.user {
-	font-weight: bold;
-	margin-right: 10px;
-}
-
-.account {
-	font-size: 14px;
-	color: #666;
-}
-
-.chat-button {
-	background-color: #d9e4f9;
-	border: none;
-	color: #0a2463;
-	padding: 10px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-	border-radius: 10px;
-	font-weight: bold;
-}
-
-.button-container {
-	margin-left: auto;
-	margin-right: 10px;
-}
 </style>
 
 <head>
-<meta charset="UTF-8">
-<link type="text/css" rel="stylesheet" href="/css/chatListStyle.css">
-<title>Add Friend</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="/css/chatListStyle.css">
+	<title>Add Friend</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -182,7 +90,7 @@ function displaySearchResults(results) {
 
             results.forEach(function (result) {
                 var listItem = document.createElement("li");
-                listItem.className = "chat-room";
+                listItem.className = "search-list";
 
                 var infoContainer = document.createElement("div");
                 infoContainer.style.display = "flex";
